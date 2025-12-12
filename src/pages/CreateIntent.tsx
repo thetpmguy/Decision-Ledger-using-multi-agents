@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -26,6 +26,8 @@ import {
   Plus,
   ArrowRight,
 } from "lucide-react";
+import { useCreateIntent } from "@/hooks/useIntents";
+import type { AuthorityMode } from "@/lib/types";
 
 const metricOptions = [
   "Conversion Rate",
@@ -55,8 +57,33 @@ const ownerOptions = [
   "Lisa Park (QA)",
 ];
 
+const authorityMap: Record<string, AuthorityMode> = {
+  "recommend": "RecommendOnly",
+  "recommend-execute": "RecommendThenExecute",
+  "auto-execute": "AutoExecute",
+};
+
+const timeHorizonMap: Record<string, number> = {
+  "1-week": 7,
+  "2-weeks": 14,
+  "1-month": 30,
+  "3-months": 90,
+};
+
+const blastRadiusMap: Record<number, number[]> = {
+  0: [1],
+  1: [1, 10],
+  2: [1, 10, 50],
+  3: [1, 10, 50, 100],
+};
+
 export default function CreateIntent() {
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
+  const sourceAlertId = searchParams.get("alertId");
+  
+  const createIntent = useCreateIntent();
+  
   const [goal, setGoal] = useState("");
   const [selectedMetrics, setSelectedMetrics] = useState<string[]>([]);
   const [selectedConstraints, setSelectedConstraints] = useState<string[]>([]);
@@ -66,12 +93,43 @@ export default function CreateIntent() {
   const [selectedOwners, setSelectedOwners] = useState<string[]>([]);
   const [autoRollback, setAutoRollback] = useState(true);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    toast.success("Intent created successfully", {
-      description: "Your intent is now being analyzed by our AI agents.",
-    });
-    navigate("/intents");
+    
+    if (!goal.trim()) {
+      toast.error("Please enter a goal");
+      return;
+    }
+    
+    if (selectedMetrics.length === 0) {
+      toast.error("Please select at least one metric");
+      return;
+    }
+
+    try {
+      const newIntent = await createIntent.mutateAsync({
+        title: goal.trim(),
+        goal_metric: selectedMetrics[0],
+        goal_target_delta: 1, // Default 1% improvement target
+        time_horizon_days: timeHorizonMap[timeHorizon],
+        authority_mode: authorityMap[authority],
+        blast_radius_plan: blastRadiusMap[blastRadius[0]],
+        constraints: {
+          items: selectedConstraints,
+          auto_rollback: autoRollback,
+        },
+        source_alert_id: sourceAlertId,
+      });
+
+      toast.success("Intent created successfully", {
+        description: "Your intent is now being analyzed by our AI agents.",
+      });
+      navigate(`/intents/${newIntent.id}`);
+    } catch (error) {
+      toast.error("Failed to create intent", {
+        description: error instanceof Error ? error.message : "Please try again",
+      });
+    }
   };
 
   const toggleItem = (
