@@ -3,21 +3,19 @@ import { cn } from "@/lib/utils";
 import {
   LayoutDashboard,
   Target,
-  GitBranch,
-  FlaskConical,
-  Clock,
-  BarChart3,
+  AlertTriangle,
+  Activity,
+  Plug,
   Settings,
-  Zap,
+  Eye,
 } from "lucide-react";
 
 const navigation = [
-  { name: "Outcomes", href: "/", icon: LayoutDashboard },
+  { name: "Dashboard", href: "/", icon: LayoutDashboard },
+  { name: "Alerts", href: "/alerts", icon: AlertTriangle },
+  { name: "Intents", href: "/intents", icon: Activity },
   { name: "Create Intent", href: "/create", icon: Target },
-  { name: "Plan Review", href: "/plans", icon: GitBranch },
-  { name: "Simulation", href: "/simulation", icon: FlaskConical },
-  { name: "Timeline", href: "/timeline", icon: Clock },
-  { name: "Proof", href: "/proof", icon: BarChart3 },
+  { name: "Connectors", href: "/connectors", icon: Plug },
 ];
 
 export function AppLayout({ children }: { children: React.ReactNode }) {
@@ -31,15 +29,16 @@ export function AppLayout({ children }: { children: React.ReactNode }) {
           {/* Logo */}
           <div className="flex h-16 items-center gap-2 border-b border-sidebar-border px-6">
             <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary">
-              <Zap className="h-5 w-5 text-primary-foreground" />
+              <Eye className="h-5 w-5 text-primary-foreground" />
             </div>
-            <span className="text-lg font-semibold text-foreground">intent.ai</span>
+            <span className="text-lg font-semibold text-foreground">Observeo</span>
           </div>
 
           {/* Navigation */}
           <nav className="flex-1 space-y-1 px-3 py-4">
             {navigation.map((item) => {
-              const isActive = location.pathname === item.href;
+              const isActive = location.pathname === item.href || 
+                (item.href !== "/" && location.pathname.startsWith(item.href));
               return (
                 <Link
                   key={item.name}
