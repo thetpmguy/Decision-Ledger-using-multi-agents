@@ -71,7 +71,7 @@ export default function CreateIntent() {
     toast.success("Intent created successfully", {
       description: "Your intent is now being analyzed by our AI agents.",
     });
-    navigate("/plans");
+    navigate("/intents");
   };
 
   const toggleItem = (
