@@ -75,6 +75,7 @@ Product managers review live and historical data such as:
 - experiment performance
 
 Intent App does not replace these tools — it consumes **context**, not raw data.
+<img width="1468" height="703" alt="Screenshot 2025-12-30 at 1 40 02 PM" src="https://github.com/user-attachments/assets/36e2b3a2-8c15-45bb-8b6b-9b6b2856da33" />
 
 ---
 
@@ -88,6 +89,7 @@ Examples:
 - Accept short-term risk to unlock long-term adoption
 
 Intent becomes a first-class artifact.
+<img width="1445" height="718" alt="Screenshot 2025-12-30 at 1 39 15 PM" src="https://github.com/user-attachments/assets/d82b78e6-06bb-4598-9d2a-97085d85b5b8" />
 
 ---
 
@@ -100,6 +102,7 @@ Each intent is linked to:
 - contextual notes
 
 This preserves decision context at the moment it was made.
+<img width="1459" height="700" alt="Screenshot 2025-12-30 at 1 39 00 PM" src="https://github.com/user-attachments/assets/e65efc1a-8d4d-432c-9f3e-61f0d636704d" />
 
 ---
 
@@ -114,6 +117,7 @@ Simulation exists to:
 - support judgment
 
 It is not designed to predict exact results.
+<img width="1205" height="707" alt="Screenshot 2025-12-30 at 1 52 36 PM" src="https://github.com/user-attachments/assets/8aa7d584-7cbd-4e5d-b5f6-905871117d38" />
 
 ---
 
@@ -268,6 +272,7 @@ After simulation, PMs record:
 - expected outcome
 
 This becomes a decision contract.
+<img width="1206" height="473" alt="Screenshot 2025-12-30 at 1 52 45 PM" src="https://github.com/user-attachments/assets/ff2d1b49-b7da-4a31-87f1-61dfb6d5a9e5" />
 
 ---
 
